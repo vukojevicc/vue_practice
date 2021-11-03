@@ -29,15 +29,28 @@
           <div class="healthbar__value" v-bind:style="playerHealthBar"></div>
         </div>
       </section>
-      <section id="controls">
+      <section class="container" v-if="winner">
+        <h2>Game over</h2>
+        <h3 v-if="winner === 'player'">You won!</h3>
+        <h3 v-else-if="winner === 'monster'">You lost!</h3>
+        <h3 v-else>It's a draw!</h3>
+        <button @click="newGame">Start new game</button>
+      </section>
+      <section id="controls" v-else>
         <button @click="attackMonster">ATTACK</button>
         <button @click="specialAttackMonster" v-bind:disabled="nthRound">SPECIAL ATTACK</button>
         <button @click="healPlayer">HEAL</button>
-        <button>SURRENDER</button>
+        <button @click="surrender">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
-        <ul></ul>
+        <ul>
+          <li v-for="message in logMessages">
+            <span v-bind:class="{'log--player': message.actionBy === 'player', 'log--monster': message.actionBy !== 'player'}">{{ message.actionBy === 'player' ? 'Player' : 'Monster' }}</span>
+            <span v-if="message.actionType === 'heal'"> Heals himself for <span class="log--heal">{{message.actionValue}}</span></span>
+            <span v-else> Attacks and deals <span class="log--damage">{{message.actionValue}}</span></span>
+          </li>
+        </ul>
       </section>
     </div>
   </body>
