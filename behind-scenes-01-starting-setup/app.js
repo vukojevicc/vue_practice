@@ -16,3 +16,25 @@ const app = Vue.createApp({
 });
 
 app.mount('#app');
+
+const data = {
+  message: 'hello!',
+  longMessage: 'Hello world!'
+}
+
+const handler = {
+  set(target, key, value){
+    if(key === 'message'){
+      target.longMessage = value
+    }
+    target.message = value
+    console.log(target)
+  }
+}
+
+let proxy = new Proxy(data, handler)
+
+// Kada ovo svojstvo pokusa da se promeni onda se ispaljuje set funkcija hendlera koja obavlja dalje posao, Tako vue funckionise.
+proxy.message = 'isto!'
+
+console.log(proxy.longMessage)
