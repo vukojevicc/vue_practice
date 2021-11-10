@@ -11,13 +11,40 @@ const app = Vue.createApp({
     },
     setText() {
       // this.message = this.currentUserInput;
-      // this.message = this.$refs.userText
-      console.dir(this.$refs.userText)
+      this.message = this.$refs.userText
+      // console.dir(this.$refs.userText)
     },
   },
+  beforeCreate() {
+    console.log('beforeCreate()')
+  },
+  created() {
+    console.log('created')
+  },
+  beforeMount() {
+    console.log('beforeMount()')
+  },
+  mounted() {
+    console.log('mounted')
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate()')
+  },
+  updated() {
+    console.log('updated()')
+  },
+  beforeUnmount() {
+    console.log('beforeUnmount()')
+  },
+  unmounted() {
+    console.log('unmounted()')
+  }
 });
 
-app.mount('#app');
+app.mount('#app')
+setTimeout(() => {
+  app.unmount()
+}, 3000)
 
 const app2 = Vue.createApp({
     template: `
@@ -37,19 +64,19 @@ const data = {
   longMessage: 'Hello world!'
 }
 
-const handler = {
-  set(target, key, value){
-    if(key === 'message'){
-      target.longMessage = value
-    }
-    target.message = value
-    console.log(target)
-  }
-}
+// const handler = {
+//   set(target, key, value){
+//     if(key === 'message'){
+//       target.longMessage = value
+//     }
+//     target.message = value
+//     console.log(target)
+//   }
+// }
 
-let proxy = new Proxy(data, handler)
+// let proxy = new Proxy(data, handler)
 
-// Kada ovo svojstvo pokusa da se promeni onda se ispaljuje set funkcija hendlera koja obavlja dalje posao, Tako vue funckionise.
-proxy.message = 'isto!'
+// // Kada ovo svojstvo pokusa da se promeni onda se ispaljuje set funkcija hendlera koja obavlja dalje posao, Tako vue funckionise.
+// proxy.message = 'isto!'
 
-console.log(proxy.longMessage)
+// console.log(proxy.longMessage)
