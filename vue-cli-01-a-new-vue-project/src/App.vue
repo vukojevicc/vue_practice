@@ -1,6 +1,7 @@
 <template>
   <section>
     <header><h1>My friends</h1></header>
+    <new-friend @add-contact="addContact"></new-friend>
     <ul>
       <friend-contact
         v-for="friend in friends"
@@ -11,6 +12,7 @@
         v-bind:email-adress="friend.email"
         v-bind:is-favourite="friend.isFavourite"
         @toggle-favourite="toggleFavouriteStatus"
+        @delete-friend="deleteContact"
       ></friend-contact>
     </ul>
   </section>
@@ -18,8 +20,9 @@
 
 <script>
 import friendContact from "./components/FriendContact.vue";
+import NewFriend from "./components/newFriend.vue";
 export default {
-  components: { friendContact },
+  components: { friendContact, NewFriend },
   data() {
     return {
       friends: [
@@ -28,24 +31,38 @@ export default {
           name: "Manuel Lorenz",
           phone: "3462356356",
           email: "manuel@localhost.com",
-          isFavourite: false
+          isFavourite: false,
         },
         {
           id: "julie",
           name: "Julie Jones",
           phone: "56768678678",
           email: "Julie@localhost.com",
-          isFavourite: true
+          isFavourite: true,
         },
       ],
     };
   },
   methods: {
     toggleFavouriteStatus(friendId) {
-      let identifiedFriend = this.friends.find(friend => friendId === friend.id)
-      identifiedFriend.isFavourite = !identifiedFriend.isFavourite
+      let identifiedFriend = this.friends.find(
+        (friend) => friendId === friend.id
+      );
+      identifiedFriend.isFavourite = !identifiedFriend.isFavourite;
+    },
+    addContact(name, phone, email) {
+      this.friends.push({
+        id: new Date().toISOString(),
+        name: name,
+        phone: phone,
+        email: email,
+        isFavourite: false
+      })
+    },
+    deleteContact(contactId) {
+      this.friends = this.friends.filter(friend => friend.id !== contactId)
     }
-  }
+  },
 };
 </script>
 
