@@ -23,7 +23,8 @@ export default {
     },
     async fetchRequests(context) {
         let coachId = context.rootGetters.userId
-        let response = await fetch(`https://vue-http-demo-b6857-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`)
+        let token = context.rootGetters.token
+        let response = await fetch(`https://vue-http-demo-b6857-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json?auth=${token}`)
         let responseData = await response.json()
 
         if(!response.ok) {

@@ -9,7 +9,9 @@ export default {
             areas: payload.areas
         }
 
-        let response = await fetch(`https://vue-http-demo-b6857-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json`, {
+        let token = context.rootGetters.token
+
+        let response = await fetch(`https://vue-http-demo-b6857-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json?auth=${token}`, {
             method: 'PUT',
             body: JSON.stringify(coachData)
         })
